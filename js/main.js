@@ -9,42 +9,32 @@ loginBtn.addEventListener('click', function(){
 
 //Withdraw button event handler
 const withdrawBtn = document.getElementById('addWithdraw').addEventListener("click", function(){
-    const withdrawAmount = document.getElementById("withdrawAmount").value;
-    const withdrawNumber = parseFloat(withdrawAmount);
+    const withdrawNumber = getInputNumber("withdrawAmount")
 
-    const currentWithdraw = document.getElementById("currentWithdraw").innerText;
-    const currentWithdrawNumber = parseFloat(currentWithdraw);
-    const totalWithdraw =  withdrawNumber + currentWithdrawNumber;
+    paypalAmount("currentWithdraw", withdrawNumber);
+    paypalAmount("current-balance", -1 * withdrawNumber);
 
-    document.getElementById("currentWithdraw").innerText = totalWithdraw;
     document.getElementById('withdrawAmount').value = "";
-
-    const currentBalance = document.getElementById('current-balance').innerText;
-    const currentBalanceNumber = parseFloat(currentBalance);
-    const TotalBalance = currentBalanceNumber - totalWithdraw;
-
-    document.getElementById("current-balance").innerText = TotalBalance;
 });
-
-
 
 //Deposit button event handler
 const depositBtn = document.getElementById('addAmount').addEventListener('click', function(){
-    const depositNumber = getInputNumber("depositAmount")         
-    getDepositAmount("current-balance", depositNumber);
-    getDepositAmount("currentDeposit", depositNumber);
+    const depositNumber = getInputNumber("depositAmount")
+
+    paypalAmount("current-balance", depositNumber);
+    paypalAmount("currentDeposit", depositNumber);
 
     document.getElementById('depositAmount').value = "";
 })
 
 //Get Input Number
-function getInputNumber(id, ){
+function getInputNumber(id){
     const Amount = document.getElementById(id).value;
     const amountNumber = parseFloat(Amount);
     return amountNumber;
 }
 //Update Span Text
-    function getDepositAmount(id, depositNumber){
+    function paypalAmount(id, depositNumber){
     const currentAmount = document.getElementById(id).innerText;
     const currentNumber = parseFloat(currentAmount);
     const totalAmount = depositNumber + currentNumber;
